@@ -1,4 +1,4 @@
-#!/usr/bin/python3 env
+#!/usr/bin/env python3
 """A program that creates a tuple using an annotated function."""
 from typing import Union
 
