@@ -6,7 +6,7 @@ from typing import Tuple
 
 def zoom_array(
         lst: Tuple, factor: int = 2
-        ) -> List[int]:
+        ) -> List:
     """A function that takes a list and integer and returns a refined list."""
     zoomed_in: List[int] = [
             item for item in lst
