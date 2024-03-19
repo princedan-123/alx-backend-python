@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 """Measures the time of execution of four asynchronous tasks."""
 import time
 import asyncio
