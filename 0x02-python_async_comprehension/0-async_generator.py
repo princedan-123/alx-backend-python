@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """A program that creates an asynchronous generator."""
 import random
-from typing import AsyncGenerator
+from typing import Generator
 import asyncio
 
 
-async def async_generator() -> AsyncGenerator[float, None]:
+async def async_generator() -> Generator[float, None, None]:
     """
         A function that yields random floats.
         Args: no arguments
