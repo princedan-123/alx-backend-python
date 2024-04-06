@@ -42,7 +42,7 @@ class TestGetJson(unittest.TestCase):
             returns a particular result.
         """
         mock_respone = Mock()
-        mock_respone.json.return_value = {"payload": True}
+        mock_respone.json.return_value = payload
         with patch('utils.requests.get') as mock_object:
             mock_object.return_value = mock_respone
             data = get_json(url)
