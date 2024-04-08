@@ -14,6 +14,6 @@ class TestGithubOrgClient(unittest.TestCase):
             returns the correct value.
         """
         client = GithubOrgClient(org_name)
-        client.org()
         full_url = client.ORG_URL.format(org=client._org_name)
+        client.org()
         mock_json_object.assert_called_once_with(full_url)
