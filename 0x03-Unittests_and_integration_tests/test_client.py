@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from parameterized import parameterized
 from client import GithubOrgClient
 import unittest
