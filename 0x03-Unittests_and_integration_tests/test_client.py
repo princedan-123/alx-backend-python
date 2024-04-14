@@ -38,7 +38,8 @@ class TestGithubOrgClient(unittest.TestCase):
     def test_public_repos(self, mock_get_json):
         """A testcase to test public_repos method of GithubOrgClient class."""
         mock_get_json.return_value = [
-            {'name': 'repo1'}, {'name': 'repo2'}, {'name': 'repo3'}
+            {'name': 'repo1'}, {'name': 'repo2'},
+            {'name': 'repo3'}
             ]
         client = GithubOrgClient('example_org')
         with patch.object(
@@ -50,3 +51,11 @@ class TestGithubOrgClient(unittest.TestCase):
             self.assertEqual(result, expected_list)
             mock__public_repo.assert_called_once()
             mock_get_json.assert_called_once()
+
+    @parameterized.expand(
+            ({"license": {"key": "my_license"}}, "my_license", True)
+            ({"license": {"key": "other_license"}}, "my_license", False)
+    )
+    def test_has_license(self, map, license_key, result):
+        """A method that unit tests GithubOrgClient.has_license."""
+        self.assertEqual(GithubOrgClient.has_license(map, license_key), result)
