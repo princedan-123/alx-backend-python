@@ -50,4 +50,5 @@ def batch_processing(batch_size):
     for row in stream_users_in_batches(batch_size):
         if row['age'] >= 25:
             print(row)
+            yield row
         
