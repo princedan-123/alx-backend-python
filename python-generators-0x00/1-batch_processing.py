@@ -47,8 +47,10 @@ def batch_processing(batch_size):
         users over 25 year old.
         Arg: The size of each batch to be filtered.
     """
+    output = []
     for row in stream_users_in_batches(batch_size):
         if row['age'] >= 25:
             print(row)
-            yield row
+            output.append(row)
+    return output
         
