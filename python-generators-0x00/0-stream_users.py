@@ -36,3 +36,4 @@ def stream_users():
         print(f'an error occured while trying to stream data: {error}')
     finally:
         cursor.close()
+        db.close()
