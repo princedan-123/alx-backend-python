@@ -17,7 +17,7 @@ def connect_db():
         connection = connect(
         host='localhost',
         user=user,
-        password=password, # this should be in a .env file in production
+        password=password,
         )
     except Exception as e:
         print('An error occured while trying to establish connection', e)
