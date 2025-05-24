@@ -6,6 +6,7 @@ import functools
 """
 def with_db_connection(func):
     """A decorator that creates a database connection"""
+    @functools.wraps(func)
     def wrapper(*args, **kwargs):
         try:
             connection = sqlite3.connect('users.db')
@@ -17,6 +18,7 @@ def with_db_connection(func):
 
 def transactional(func):
     """A decorator that wraps a function in a transcation."""
+    @functools.wraps(func)
     def wrapper(connection, *args, **kwargs):
         """A wrapper function that extends the main function."""
         try:
