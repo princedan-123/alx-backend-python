@@ -37,6 +37,7 @@ class TestGithubOrgClient(unittest.TestCase):
 
         ]
     )
+    
     def test_public_repos_url(self, name, org_name, expected):
         """
         A test case to test GithubOrgClient._public_repos_url.
@@ -66,8 +67,6 @@ class TestGithubOrgClient(unittest.TestCase):
                 with self.assertRaises(KeyError):
                     client._public_repos_url
 
-class TestGithubOrgClient(unittest.TestCase):
-    """A test class to unit-test GithubOrgClient.public_repos."""
     @patch('client.get_json')
     def test_public_repos(self, mock_get_json):
         """A test case to test GithubOrgClient.public_repos."""
