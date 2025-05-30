@@ -30,11 +30,10 @@ class TestAccessNestedMap(unittest.TestCase):
 class TestGetJson(unittest.TestCase):
     """This class uses mocks a function."""
     @parameterized.expand([
-        ('True', 'http://example.com', {'payload': True}),
-        ('False', 'http://holberton.io', {'payload': False})
+        ('http://example.com', {'payload': True}),
+        ('http://holberton.io', {'payload': False})
     ])
-    def test_get_json(self, name, url, expected):
-        """Test that utils.get_json returns the expected result."""
+    def test_get_json(self, url, expected):
         with patch('utils.requests.get') as mock_get:
             def mock_behaviour(url):
                 response = Mock()
