@@ -20,7 +20,6 @@ class TestGithubOrgClient(unittest.TestCase):
         mock_get_json.assert_called_once_with('https://api.github.com/orgs/{org}'.format(org=org))
         self.assertEqual(output, expected)
     
-    def test_public_repos(self):
     @parameterized.expand([
             (
                 'google',
@@ -33,7 +32,6 @@ class TestGithubOrgClient(unittest.TestCase):
 
         ]
     )
-    
     def test_public_repos_url(self, org_name, expected):
         """
         A test case to test GithubOrgClient._public_repos_url.
