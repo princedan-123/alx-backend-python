@@ -19,13 +19,12 @@ class TestAccessNestedMap(unittest.TestCase):
         self.assertEqual(access_nested_map(nested_map, path), expected)
     
     @parameterized.expand([
-        ('no dictionary', {}, ("a",), KeyError),
-        ('excess keys', {"a": 1}, ("a", "b"), KeyError)
+        ({}, ("a",), KeyError),
+        ({"a": 1}, ("a", "b"), KeyError)
     ])
-    def test_access_nested_map_exception(self, name, map, path, expected):
-        """A test case to check for exceptions."""
+    def test_access_nested_map_exception(self, nested_map, path, expected):
         with self.assertRaises(KeyError) as context:
-            access_nested_map(map, path)
+            access_nested_map(nested_map, path)
             self.assertEqual(path, str(context.exception))
 
 class TestGetJson(unittest.TestCase):
