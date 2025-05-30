@@ -10,13 +10,13 @@ class TestAccessNestedMap(unittest.TestCase):
     """A test class to test access_nested_map function."""
     @parameterized.expand(
         [
-            ('single_dictionary', {"a": 1}, ("a",), 1),
-            ('double_nested_dictionary', {"a": {"b": 2}}, ("a",), {"b": 2}),
-            ('two_keys', {"a": {"b": 2}}, ("a", "b"), 2)
+            ({"a": 1}, ("a",), 1),
+            ({"a": {"b": 2}}, ("a",), {"b": 2}),
+            ({"a": {"b": 2}}, ("a", "b"), 2)
         ]
     )
-    def test_access_nested_map(self, name, map, path, expected):
-        self.assertEqual(access_nested_map(map, path), expected)
+    def test_access_nested_map(self, nested_map, path, expected):
+        self.assertEqual(access_nested_map(nested_map, path), expected)
     
     @parameterized.expand([
         ('no dictionary', {}, ("a",), KeyError),
