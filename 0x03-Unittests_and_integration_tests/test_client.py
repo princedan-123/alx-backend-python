@@ -33,11 +33,6 @@ class TestGithubOrgClient(unittest.TestCase):
         ]
     )
     def test_public_repos_url(self, org_name, expected):
-        """
-        A test case to test GithubOrgClient._public_repos_url.
-        GithubOrgClient._public_repos_url depends on GithubOrgClient.org
-        therefore GithubOrgClient.org will be mocked using patch
-        """
         with patch('client.GithubOrgClient.org', new_callable=PropertyMock) as mock_org:
             google_payload = {
                 "login": "google",
@@ -63,7 +58,6 @@ class TestGithubOrgClient(unittest.TestCase):
 
     @patch('client.get_json')
     def test_public_repos(self, mock_get_json):
-        """A test case to test GithubOrgClient.public_repos."""
         payload = [
             {
                 "name": "google-repo-one",
