@@ -7,13 +7,11 @@ from client import GithubOrgClient
 class TestGithubOrgClient(unittest.TestCase):
     """A class that test the client.GithubOrgClient class."""
     @parameterized.expand([
-        ('google_test', 'google', {"login": "google","id": 1342004}),
-        ('abc_test', 'abc', {"message": "Not Found", "status": "404"})
+        ('google', {"login": "google","id": 1342004}),
+        ('abc', {"message": "Not Found", "status": "404"})
     ])
     @patch('client.get_json')
-    def test_org(self, name, org, expected, mock_get_json):
-        """A test case to test the org method of GithubOrgClient class."""
-
+    def test_org(self, org, expected, mock_get_json):
         mock_get_json.return_value = expected
         git_client = GithubOrgClient(org)
         output = git_client.org
@@ -21,16 +19,12 @@ class TestGithubOrgClient(unittest.TestCase):
         self.assertEqual(output, expected)
     
     def test_public_repos(self):
-        """A test case to test GithubOrgClient.public_repos."""
-    
     @parameterized.expand([
             (
-                'test_google',
                 'google',
                 'https://api.github.com/orgs/google/repos'
             ),
             (
-                'test_abc',
                 'abc',
                 'KeyError: repos_url'
             )
@@ -38,7 +32,7 @@ class TestGithubOrgClient(unittest.TestCase):
         ]
     )
     
-    def test_public_repos_url(self, name, org_name, expected):
+    def test_public_repos_url(self, org_name, expected):
         """
         A test case to test GithubOrgClient._public_repos_url.
         GithubOrgClient._public_repos_url depends on GithubOrgClient.org
