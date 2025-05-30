@@ -32,7 +32,8 @@ class TestGithubOrgClient(unittest.TestCase):
 
         ]
     )
-    def test_public_repos_url(self, org_name, expected):
+
+    def test_public_repos_url(self, org_name: str, expected: str) -> None:
         with patch('client.GithubOrgClient.org', new_callable=PropertyMock) as mock_org:
             google_payload = {
                 "login": "google",
