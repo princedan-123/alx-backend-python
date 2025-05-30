@@ -6,10 +6,12 @@ from client import GithubOrgClient
 
 class TestGithubOrgClient(unittest.TestCase):
     """A class that test the client.GithubOrgClient class."""
-    @parameterized.expand([
-        ('google', {"login": "google","id": 1342004}),
-        ('abc', {"message": "Not Found", "status": "404"})
-    ])
+    @parameterized.expand(
+        [
+            ('google', {"login": "google","id": 1342004}),
+            ('abc', {"message": "Not Found", "status": "404"})
+        ]
+    )
     @patch('client.get_json')
     def test_org(self, org, expected, mock_get_json):
         mock_get_json.return_value = expected
