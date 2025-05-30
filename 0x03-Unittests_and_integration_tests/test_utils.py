@@ -16,12 +16,6 @@ class TestAccessNestedMap(unittest.TestCase):
         ]
     )
     def test_access_nested_map(self, name, map, path, expected):
-        """
-            A test method to test the access_nested_map using parameterized inputs.
-            Args: name (str) - test label
-                  map(dict) - dictionary to be tested
-                  path(sequence) - the keys of the dictionary.
-        """
         self.assertEqual(access_nested_map(map, path), expected)
     
     @parameterized.expand([
