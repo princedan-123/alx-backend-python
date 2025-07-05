@@ -25,9 +25,8 @@ def stream_user_ages():
             SELECT age FROM user_data; 
             """
         )
-        result = cursor.fetchall()
-        for age in result:
-            yield age
+        for row in cursor:
+            yield row['age']
     except Exception as error:
         print(
             f'An error occured while trying to retrieve age from database: {error}'
@@ -41,9 +40,9 @@ def average_age():
     """A function that calculates the average age of users without
        using the mysql avg function.
     """
-    age = 0
+    age_count = 0
     count = 0
-    for row in stream_user_ages():
-        age += row['age']
+    for age in stream_user_ages():
+        age_count += age
         count += 1
-    print(f'Average age of users: {age /count}')
+    print(f'Average age of users: {age_count /count}')
