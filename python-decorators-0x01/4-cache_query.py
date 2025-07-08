@@ -21,17 +21,17 @@ def with_db_connection(func):
 def cache_query(func):
     """A decorator that implements memoization."""
     @functools.wraps(func)
-    def wrapper(*args, **kwargs):
+    def wrapper(conn, *args, **kwargs):
         if args and not kwargs:
-            query = args(1)
+            query = args[1]
         elif kwargs:
             query = kwargs['query']
-        cached_result = query_cache.get(query)
-        if cached_result:
+        if query in query_cache:
+            cached_result = query_cache.get(query)
             print('from the cache')
             return cached_result
         print('computing')
-        result = func(*args, **kwargs)
+        result = func(conn, *args, **kwargs)
         query_cache[query] = result
         return result
     return wrapper
