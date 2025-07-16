@@ -8,6 +8,7 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=50, null=False, blank=False)
     last_name = models.CharField(max_length=50, null=False, blank=False)
     phone_number = models.CharField(max_length=21, null=False, blank=False, unique=True)
+    country_code = models.CharField(max_length=4, null=False, blank=False)
     password = models.CharField(max_length=128, null=False, blank=False)
     user_id = models.UUIDField(default=uuid4, primary_key=True)
     def __str__(self):
