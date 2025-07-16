@@ -8,11 +8,11 @@ from rest_framework.response import Response
 from rest_framework import status
 # Create your views here.
 
-class UserViewset(viewsets.ModelViewset):
+class UserViewSet(viewsets.ModelViewset):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-class MessageViewset(viewsets.ModelViewset):
+class MessageViewSet(viewsets.ModelViewset):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
     filter_backends = [filters.SearchFilter]
@@ -25,6 +25,6 @@ class MessageViewset(viewsets.ModelViewset):
         data = serialized_message.data
         return Response(data, status=status.HTTP_200_OK)
 
-class ConversationViewset(viewsets.ModelViewset):
+class ConversationViewSet(viewsets.ModelViewset):
     queryset = Conversation.objects.all()
     serializer_class = ConversationSerializer
