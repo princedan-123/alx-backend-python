@@ -2,7 +2,10 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from .models import User, Message, Conversation
 from .serializers import UserSerializer, MessageSerializer, ConversationSerializer
-
+from rest_framework import filters
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework import status
 # Create your views here.
 
 class UserViewset(viewsets.ModelViewset):
@@ -12,6 +15,15 @@ class UserViewset(viewsets.ModelViewset):
 class MessageViewset(viewsets.ModelViewset):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['message_body']
+
+    @action(detail=True, methods=['get'])
+    def message_by_id(self, request, pk=None):
+        message = self.get_object()
+        serialized_message = MessageSerializer(message)
+        data = serialized_message.data
+        return Response(data, status=status.HTTP_200_OK)
 
 class ConversationViewset(viewsets.ModelViewset):
     queryset = Conversation.objects.all()
