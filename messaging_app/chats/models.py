@@ -17,6 +17,7 @@ class User(AbstractUser):
 class Message(models.Model):
     message_id = models.BigAutoField(primary_key=True)
     message_body = models.TextField(null=False, blank=False)
+    conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE, related_name='messages')
     sent_at = models.DateTimeField(auto_now=True, editable=False)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='messages')
