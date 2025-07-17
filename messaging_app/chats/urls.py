@@ -6,7 +6,7 @@ from .views import UserViewSet, MessageViewSet, ConversationViewSet
 route = routers.DefaultRouter()
 route.register(r'user', UserViewSet)
 route.register(r'message', MessageViewSet)
-route.register(r'Conversation', ConversationViewSet)
+route.register(r'conversation', ConversationViewSet)
 conversation_nested_router = NestedDefaultRouter(route, r'conversation', lookup='conversation')
 conversation_nested_router.register(r'messages', MessageViewSet, basename='conversation-message')
 urlpatterns = [
