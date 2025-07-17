@@ -8,11 +8,11 @@ from rest_framework.response import Response
 from rest_framework import status
 # Create your views here.
 
-class UserViewSet(viewsets.ModelViewset):
+class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-class MessageViewSet(viewsets.ModelViewset):
+class MessageViewSet(viewsets.ModelViewSet):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
     filter_backends = [filters.SearchFilter]
@@ -24,7 +24,15 @@ class MessageViewSet(viewsets.ModelViewset):
         serialized_message = MessageSerializer(message)
         data = serialized_message.data
         return Response(data, status=status.HTTP_200_OK)
+    
+    def get_queryset(self):
+        """A method that filters queryset for nested urls."""
+        conversation_id = self.kwargs.get('conversation_pk')
+        filterd_message = Message.objects.filter(conversation_id=conversation_id)
+        if filterd_message:
+            return filterd_message
+        return Message.objects.all()
 
-class ConversationViewSet(viewsets.ModelViewset):
+class ConversationViewSet(viewsets.ModelViewSet):
     queryset = Conversation.objects.all()
     serializer_class = ConversationSerializer
