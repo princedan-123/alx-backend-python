@@ -29,11 +29,15 @@ class MessageSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     class Meta:
         model = Message
-        fields = ['message_body', 'sent_at', 'created_at']
+        fields = [
+            'message_body', 'sent_at',
+            'created_at', 'conversation'
+            ]
 
 class ConversationSerializer(serializers.ModelSerializer):
     conversation_id = serializers.IntegerField(read_only=True)
     participants = UserSerializer()
+    messages = MessageSerializer(many=True, read_only=True)
     class Meta:
         model = Conversation
         fields = '__all__'
