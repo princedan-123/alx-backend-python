@@ -6,6 +6,7 @@ from rest_framework import filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
+from .permissions import IsOwner, IsParticipantOfConversation
 # Create your views here.
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -13,6 +14,7 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
 class MessageViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated, IsOwner]
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
     filter_backends = [filters.SearchFilter]
@@ -34,5 +36,6 @@ class MessageViewSet(viewsets.ModelViewSet):
         return Message.objects.all()
 
 class ConversationViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsParticipantOfConversation, IsAuthenticated]
     queryset = Conversation.objects.all()
     serializer_class = ConversationSerializer
