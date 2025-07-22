@@ -8,7 +8,7 @@ class IsOwner(permissions.BasePermission):
             return True
         return False
 
-class IsParticipantOfConversation(permission.BasePermission):
+class IsParticipantOfConversation(permissions.BasePermission):
     """ 
         A custom permission class that does the following
         Allow only authenticated users to access the api
