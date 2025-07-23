@@ -1,7 +1,8 @@
 from .models import User
-from datetime import time, datetime
+from datetime import time, datetime, timedelta
 from django.utils import timezone
 from django.http import HttpResponseForbidden
+from django.core.cache import cache
 
 class RequestLoggingMiddleware:
     def __init__(self, get_response):
@@ -56,3 +57,31 @@ class RolepermissionMiddleware:
         if user.is_staff or user.is_superuser:
             return self.get_response(request)
         return HttpResponseForbidden('403 Forbidden: you are not admin')
+
+class OffensiveLanguageMiddleware:
+    """A middleware that restricts access to users makes execessive request."""
+    def __init__(self, get_response):
+        """Initializes the middleware."""
+        self.get_response = get_response
+    
+    def __call__(self, request):
+        """implements restriction on number of request per minutes."""
+        ip_address = request.META.get('REMOTE_ADDR')
+        http_method = request.method
+        current_time = datetime.now()
+        if http_method == 'POST':
+            cache_result = cache.get(ip_address)
+            if cache_result is None:
+                cache_result = []
+                cache_result.append(current_time)                
+                cache.set(ip_address, cache_result)
+                return self.get_response(request)
+            number_of_request = len(cache_result)
+            elapse_time = min(cache_result) + timedelta(minutes=1)
+            maximum_duration = max(cache_result)
+            if maximum_duration >= elapse_time and number_of_request >= 5:
+                return HttpResponseForbidden('403 FORBIDDEN exceeded 5 request per minute')
+            cache_result.append(current_time)
+            cache.set(ip_address, cache_result)
+        return self.get_response(request)
+        

@@ -52,7 +52,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'chats.middleware.RequestLoggingMiddleware',
     'chats.middleware.RestrictAccessByTimeMiddleware',
-    'chats.middleware.RolepermissionMiddleware'
+    'chats.middleware.RolepermissionMiddleware',
+    'chats.middleware.OffensiveLanguageMiddleware'
 ]
 
 ROOT_URLCONF = 'messaging_app.urls'
@@ -134,3 +135,9 @@ REST_FRAMEWORK = {
     ],
 }
 AUTH_USER_MODEL = 'chats.User'
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    }
+}
