@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-ji0_$h0h@+*+_qlm5o7i41r1z0osa$k5h6rfus)saob_^+*%g7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -51,7 +51,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'chats.middleware.RequestLoggingMiddleware',
-    'chats.middleware.RestrictAccessByTimeMiddleware '
+    'chats.middleware.RestrictAccessByTimeMiddleware',
+    'chats.middleware.RolepermissionMiddleware'
 ]
 
 ROOT_URLCONF = 'messaging_app.urls'

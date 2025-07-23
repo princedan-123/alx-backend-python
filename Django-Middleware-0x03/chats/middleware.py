@@ -27,7 +27,7 @@ class RestrictAccessByTimeMiddleware:
         current_server_time_date = timezone.now()
         current_server_date = current_server_time_date.date()
         nine_pm = datetime.combine(current_server_date, time(21, 0,0))
-        six_pm - datetime.combine(current_server_date, time(18,00))
+        six_pm = datetime.combine(current_server_date, time(18,00))
         nine_pm_aware = timezone.make_aware(
             nine_pm, timezone.get_current_timezone()
             )
@@ -43,3 +43,16 @@ class RestrictAccessByTimeMiddleware:
                 '403 forbidden you can only used this app between 6-9pm'
                 )
         return self.get_response(request)
+
+class RolepermissionMiddleware:
+    """A middleware that grants access to only admin users."""
+    def __init__(self, get_response):
+        """Initializes the middleware class."""
+        self.get_response = get_response
+    
+    def __call__(self, request):
+        """Inspects the request object to check the users role."""
+        user = request.user
+        if user.is_staff or user.is_superuser:
+            return self.get_response(request)
+        return HttpResponseForbidden('403 Forbidden: you are not admin')
