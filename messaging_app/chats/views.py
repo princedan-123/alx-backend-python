@@ -14,7 +14,7 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
 class MessageViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated, IsOwner]
+    permission_classes = [IsOwner, IsParticipantOfConversation]
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
     filter_backends = [filters.SearchFilter]
@@ -36,6 +36,5 @@ class MessageViewSet(viewsets.ModelViewSet):
         return Message.objects.all()
 
 class ConversationViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsParticipantOfConversation, IsAuthenticated]
     queryset = Conversation.objects.all()
     serializer_class = ConversationSerializer
