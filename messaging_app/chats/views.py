@@ -8,14 +8,16 @@ from rest_framework.response import Response
 from rest_framework import status
 from .permissions import IsOwner, IsParticipantOfConversation
 from .pagination import CustomizedPageNumberPagination
+from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 
 class UserViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
 class MessageViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsOwner, IsParticipantOfConversation]
+    permission_classes = [IsAuthenticated, IsOwner, IsParticipantOfConversation]
     pagination_classes = [CustomizedPageNumberPagination]
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
@@ -38,5 +40,6 @@ class MessageViewSet(viewsets.ModelViewSet):
         return Message.objects.all()
 
 class ConversationViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = Conversation.objects.all()
     serializer_class = ConversationSerializer
