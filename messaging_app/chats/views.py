@@ -7,6 +7,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
 from .permissions import IsOwner, IsParticipantOfConversation
+from .pagination import CustomizedPageNumberPagination
 # Create your views here.
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -15,6 +16,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 class MessageViewSet(viewsets.ModelViewSet):
     permission_classes = [IsOwner, IsParticipantOfConversation]
+    pagination_classes = [CustomizedPageNumberPagination]
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
     filter_backends = [filters.SearchFilter]
