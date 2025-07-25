@@ -31,7 +31,7 @@ class MessageSerializer(serializers.ModelSerializer):
         model = Message
         fields = [
             'message_body', 'sent_at',
-            'created_at', 'conversation'
+            'created_at', 'conversation', 'user'
             ]
 
 class ConversationSerializer(serializers.ModelSerializer):
