@@ -36,7 +36,7 @@ class MessageSerializer(serializers.ModelSerializer):
 
 class ConversationSerializer(serializers.ModelSerializer):
     conversation_id = serializers.IntegerField(read_only=True)
-    participants = UserSerializer()
+    participants = UserSerializer(many=True)
     messages = MessageSerializer(many=True, read_only=True)
     class Meta:
         model = Conversation
