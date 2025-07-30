@@ -5,12 +5,15 @@ from django.contrib.auth.models import User
 
 class Message(models.Model):
     content = models.TextField()
+    edited = models.BooleanField(default=False)
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_messages')
     receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_messages')
     timestamp = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return f'{self.sender} to {self.receiver}'
+class MessageHistory(models.Model):
+    message = models.ForeignKey(Message, on_delete=models.CASCADE, related_name='message_history')
 
 class Notification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')
