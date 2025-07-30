@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+#  used django default User instance
+
 class Message(models.Model):
     content = models.TextField()
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_messages')
