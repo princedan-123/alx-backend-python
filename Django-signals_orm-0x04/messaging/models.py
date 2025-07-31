@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 class Message(models.Model):
     content = models.TextField()
     edited = models.BooleanField(default=False)
+    edited_at = models.DateTimeField(null=True, blank=True)
+    edited_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='edited_messages', null=True, blank=True)
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_messages')
     receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_messages')
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -14,6 +16,8 @@ class Message(models.Model):
         return f'{self.sender} to {self.receiver}'
 class MessageHistory(models.Model):
     message = models.ForeignKey(Message, on_delete=models.CASCADE, related_name='message_history')
+    content = models.TextField()
+    timestamp = models.DateTimeField(null=True, blank=True)
 
 class Notification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')

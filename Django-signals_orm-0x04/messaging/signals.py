@@ -2,6 +2,7 @@
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from .models import Message, Notification, MessageHistory
+from django.utils import timezone
 
 @receiver(post_save, sender=Message)
 def create_notification(sender, instance, created, **kwargs):
@@ -15,7 +16,12 @@ def save_old_message(sender, instance, **kwargs):
             old_message = Message.objects.get(pk=instance.pk)
             if old_message.content != instance.content:
                 instance.edited = True
-                MessageHistory.objects.create(message=old_message)
+                instance.edited_by = instance.sender
+                instance.edited_at = timezone.now()
+                MessageHistory.objects.create(
+                    message=old_message, content=message.content,
+                    timestamp=message.timestamp
+                    )
         except Exception as e:
             print(f'An error occured {e}')
         
