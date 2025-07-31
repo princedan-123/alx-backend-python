@@ -1,5 +1,6 @@
 """A module containing signal implementation for the messaging app."""
-from django.db.models.signals import post_save, pre_save
+from django.db.models.signals import post_save, pre_save, post_save
+from django.contrib.auth.models import User
 from django.dispatch import receiver
 from .models import Message, Notification, MessageHistory
 from django.utils import timezone
@@ -24,4 +25,9 @@ def save_old_message(sender, instance, **kwargs):
                     )
         except Exception as e:
             print(f'An error occured {e}')
-        
+
+
+@receiver(post_delete, sender=User)
+def delete_user_data(sender, instance, **kwargs):
+    messages = Message.objects.filter(sender=instance)
+    messages.delete()
