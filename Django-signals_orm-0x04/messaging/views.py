@@ -3,6 +3,13 @@ from rest_framework import viewsets
 from django.contrib.auth.models import User
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework import viewsets
+from .models import Message, Conversation
+from .serializers import MessageSerializer, ConversationSerializer, UserSerializer
+from rest_framework.decorators import action
+from django.contrib.auth import get_user_model
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 
 # Create your views here.
 
@@ -27,16 +34,6 @@ class delete_user(viewsets.ViewSet):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
                 )
 
-from django.shortcuts import render
-from rest_framework import viewsets
-from .models import Message, Conversation
-from .serializers import MessageSerializer, ConversationSerializer, UserSerializer
-from rest_framework.decorators import action
-from django.contrib.auth import get_user_model
-from rest_framework.response import Response
-from django.views.decorators.cache import cache_page
-from django.utils.decorators import method_decorator
-
 User = get_user_model()
 
 class ConversationView(viewsets.ModelViewSet):
@@ -58,11 +55,12 @@ class ConversationView(viewsets.ModelViewSet):
         return Response(
             {f'messages_in_{pk}_conversation':serialized_message.data}
             )
-@method_decorator(cache_page(60))
+
 class MessageView(viewsets.ModelViewSet):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
-@method_decorator(cache_page(60))
+
+
 class UserView(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
