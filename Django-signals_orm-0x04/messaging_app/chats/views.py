@@ -13,9 +13,8 @@ User = get_user_model()
 class ConversationView(viewsets.ModelViewSet):
     queryset = Conversation.objects.all()
     serializer_class = ConversationSerializer
-    @action(methods=['get'], detail=True)
     @method_decorator(cache_page(60))
-    def my_messages(self, request, pk=None):
+    def list(self, request, pk=None):
         """list all messages within a conversation."""
         try:
             conversation = Conversation.objects.get(pk=pk)
