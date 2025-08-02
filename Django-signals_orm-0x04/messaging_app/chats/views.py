@@ -29,11 +29,11 @@ class ConversationView(viewsets.ModelViewSet):
         return Response(
             {f'messages_in_{pk}_conversation':serialized_message.data}
             )
-
+@method_decorator(cache_page(60))
 class MessageView(viewsets.ModelViewSet):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
-
+@method_decorator(cache_page(60))
 class UserView(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
