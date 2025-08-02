@@ -9,7 +9,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 
 User = get_user_model()
-@method_decorator(cache_page(60), name='dispatch')
+@cache_page(60)
 class ConversationView(viewsets.ModelViewSet):
     queryset = Conversation.objects.all()
     serializer_class = ConversationSerializer
