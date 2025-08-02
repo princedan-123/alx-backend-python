@@ -9,24 +9,23 @@ from django.views.decorators.cache import cache_page
 
 User = get_user_model()
 
-class ConversationView(viewsets.ModelViewSet):
-    queryset = Conversation.objects.all()
-    serializer_class = ConversationSerializer
-    @action(methods=['get'], detail=True, decorators=[cache_page(60)])
-    def my_messages(self, request, pk=None):
-        """list all messages within a conversation."""
-        try:
-            conversation = Conversation.objects.get(pk=pk)
-        except Conversation.DoesNotExist:
-            return Response(
-                {'Error': f'this conversation {pk} does not exist'},
-                status=404
-                )
-        messages = conversation.messages.all()
-        serialized_message = MessageSerializer(messages, many=True)
+@api_view(['GET'])
+@cache_page(60)
+def my_messages_view(request, pk):
+    """List all messages within a conversation (cached for 60 seconds)."""
+    try:
+        conversation = Conversation.objects.get(pk=pk)
+    except Conversation.DoesNotExist:
         return Response(
-            {f'messages_in_{pk}_conversation':serialized_message.data}
-            )
+            {'Error': f'This conversation {pk} does not exist'},
+            status=status.HTTP_404_NOT_FOUND
+        )
+    
+    messages = conversation.messages.all()
+    serialized_message = MessageSerializer(messages, many=True)
+    return Response(
+        {f'messages_in_{pk}_conversation': serialized_message.data}
+    )
 
 class MessageView(viewsets.ModelViewSet):
     queryset = Message.objects.all()
