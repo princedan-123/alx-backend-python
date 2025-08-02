@@ -9,10 +9,12 @@ from django.views.decorators.cache import cache_page
 
 User = get_user_model()
 
-@api_view(['GET'])
 @cache_page(60)
 def my_messages_view(request, pk):
     """List all messages within a conversation (cached for 60 seconds)."""
+    if request.method != 'GET':
+        return Response({'detail': 'Method not allowed.'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
     try:
         conversation = Conversation.objects.get(pk=pk)
     except Conversation.DoesNotExist:
