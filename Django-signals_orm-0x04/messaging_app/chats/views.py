@@ -5,7 +5,7 @@ from .serializers import MessageSerializer, ConversationSerializer, UserSerializ
 from rest_framework.decorators import action
 from django.contrib.auth import get_user_model
 from rest_framework.response import Response
-# from django.utils.decorators import method_decorator
+from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 
 User = get_user_model()
@@ -13,7 +13,7 @@ User = get_user_model()
 class ConversationView(viewsets.ModelViewSet):
     queryset = Conversation.objects.all()
     serializer_class = ConversationSerializer
-    @cache_page(60)
+    @method_decorator(cache_page(60))
     @action(methods=['get'], detail=True)
     def my_messages(self, request, pk=None):
         """list all messages within a conversation."""
