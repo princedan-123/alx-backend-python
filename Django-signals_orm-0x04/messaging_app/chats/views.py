@@ -6,28 +6,29 @@ from rest_framework.decorators import action
 from django.contrib.auth import get_user_model
 from rest_framework.response import Response
 from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 
 User = get_user_model()
 
-@cache_page(60)
-def my_messages_view(request, pk):
-    """List all messages within a conversation (cached for 60 seconds)."""
-    if request.method != 'GET':
-        return Response({'detail': 'Method not allowed.'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
-
-    try:
-        conversation = Conversation.objects.get(pk=pk)
-    except Conversation.DoesNotExist:
+class ConversationView(viewsets.ModelViewSet):
+    queryset = Conversation.objects.all()
+    serializer_class = ConversationSerializer
+    @action(methods=['get'], detail=True)
+    @method_decorator(cache_page(60))
+    def my_messages(self, request, pk=None):
+        """list all messages within a conversation."""
+        try:
+            conversation = Conversation.objects.get(pk=pk)
+        except Conversation.DoesNotExist:
+            return Response(
+                {'Error': f'this conversation {pk} does not exist'},
+                status=404
+                )
+        messages = conversation.messages.all()
+        serialized_message = MessageSerializer(messages, many=True)
         return Response(
-            {'Error': f'This conversation {pk} does not exist'},
-            status=status.HTTP_404_NOT_FOUND
-        )
-    
-    messages = conversation.messages.all()
-    serialized_message = MessageSerializer(messages, many=True)
-    return Response(
-        {f'messages_in_{pk}_conversation': serialized_message.data}
-    )
+            {f'messages_in_{pk}_conversation':serialized_message.data}
+            )
 
 class MessageView(viewsets.ModelViewSet):
     queryset = Message.objects.all()
