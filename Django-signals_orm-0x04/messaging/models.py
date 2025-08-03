@@ -14,7 +14,7 @@ class Conversation(models.Model):
 class Message(models.Model):
     content = models.TextField()
     is_read = models.BooleanField(default=False)
-    parent_message field = models.ForeignKey(
+    parent_message = models.ForeignKey(
         'Message', on_delete=models.CASCADE, null=True,
         blank=True, related_name='replies'
         )

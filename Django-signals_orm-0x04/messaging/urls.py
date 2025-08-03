@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import delete_user, ConversationView, MessageView, UserView
+from .views import Delete_User, ConversationView, MessageView, UserView
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()

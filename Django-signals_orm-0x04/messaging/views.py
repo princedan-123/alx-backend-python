@@ -13,7 +13,7 @@ from django.utils.decorators import method_decorator
 
 # Create your views here.
 
-class delete_user(viewsets.ViewSet):
+class Delete_User(viewsets.ViewSet):
     def destroy(self, request, pk=None):
         """Deletes a user by id"""
         try:
@@ -66,12 +66,11 @@ class MessageView(viewsets.ModelViewSet):
         except User.DoesNotExist:
             return Response({'Error': 'User not found'}, status=404)
 
-        unread_messages = Message.unread.unread_for_user(user)
-        return Response(
-            {
-                'unread_messages': MessageSerializer(unread_messages, many=True).data
-            }
-            )
+        unread_messages = Message.unread.unread_for_user(user).only(
+            'sender', 'content', 'timestamp'
+        )
+        serialized_data = MessageSerializer(unread_messages, many=True)
+        return Response({'unread_messages': serialized_data.data})
 
 
 class UserView(viewsets.ModelViewSet):
