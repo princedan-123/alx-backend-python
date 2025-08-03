@@ -13,7 +13,7 @@ from django.utils.decorators import method_decorator
 
 # Create your views here.
 
-class Delete_User(viewsets.ViewSet):
+class delete_user(viewsets.ViewSet):
     def destroy(self, request, pk=None):
         """Deletes a user by id"""
         try:
