@@ -66,9 +66,7 @@ class MessageView(viewsets.ModelViewSet):
         except User.DoesNotExist:
             return Response({'Error': 'User not found'}, status=404)
 
-        unread_messages = user.received_messages.unread.unread_for_user(
-            user.pk
-        )
+        unread_messages = Message.unread.unread_for_user(user)
         return Response(
             {
                 'unread_messages': MessageSerializer(unread_messages, many=True).data
