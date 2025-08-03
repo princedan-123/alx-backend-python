@@ -59,6 +59,21 @@ class ConversationView(viewsets.ModelViewSet):
 class MessageView(viewsets.ModelViewSet):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
+    @action(detail=True, methods=['get'])
+    def unread_messages(self, request, pk=None):
+        try:
+            user = User.objects.get(pk=pk)
+        except User.DoesNotExist:
+            return Response({'Error': 'User not found'}, status=404)
+
+        unread_messages = user.received_messages.unread.unread_for_user(
+            user.pk
+        )
+        return Response(
+            {
+                'unread_messages': MessageSerializer(unread_messages, many=True).data
+            }
+            )
 
 
 class UserView(viewsets.ModelViewSet):

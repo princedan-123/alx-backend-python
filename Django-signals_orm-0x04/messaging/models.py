@@ -1,11 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from .managers import UnreadMessagesManager
 
-# creating a custom manager for custom logic
-class UnreadMessagesManager(models.Manager):
-    def get_queryset(self):
-        """Returns only unread messages."""
-        return super().get_queryset().filter(is_read=False)
 
 
 #  used django default User instance
@@ -33,7 +29,7 @@ class Message(models.Model):
         related_name='messages'
         )
     objects = models.Manager()
-    UnreadMessagesManager = UnreadMessagesManager()
+    unread = UnreadMessagesManager()
 
     def __str__(self):
         return f'{self.sender} to {self.receiver}'
