@@ -16,6 +16,7 @@ services:
   db:
     image: mysql:8.0
     container_name: my_database
+    command: python3 manage.py runserver 0.0.0.0:8000
     environment:
       - MYSQL_USER=${mysql_user}
       - MYSQL_DB=${mysql_db}
