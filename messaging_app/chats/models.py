@@ -12,13 +12,13 @@ class User(AbstractUser):
     password = models.CharField(max_length=128, null=False, blank=False)
     user_id = models.UUIDField(default=uuid4, primary_key=True)
     def __str__(self):
-        return self.email
+        return f'{self.email}'
 
 class Conversation(models.Model):
     conversation_id = models.BigAutoField(primary_key=True)
     participants = models.ManyToManyField(User, related_name='conversationS')
     def __str__(self):
-        return self.conversation_id
+        return f'{self.conversation_id}'
 
 class Message(models.Model):
     message_id = models.BigAutoField(primary_key=True)
@@ -28,4 +28,4 @@ class Message(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='messages')
     def __str__(self):
-        return self.message_id
+        return f'{self.message_id}'

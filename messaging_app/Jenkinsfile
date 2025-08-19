@@ -1,0 +1,21 @@
+pipeline{
+    agent any
+    stages{
+        stage('Pull_From_Github'){
+            steps{
+                echo 'Pulling from github'
+                git branch: 'main',
+                    url: 'https://github.com/princedan-123/alx-backend-python.git',
+                    credentialsId: 'git_token'
+                
+            }
+        }
+        stage('Install dependencies') {
+            steps {
+                dir('messaging_app'){
+                    sh 'pip install -r requirements.txt'
+                }
+            }
+        }
+    }
+}
